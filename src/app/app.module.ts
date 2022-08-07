@@ -19,6 +19,9 @@ import { UsersModule } from './Pages/Users/Users.module';
 import { AdminModule } from './Pages/Admin/Admin.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HeaderInterceptor } from './_core/Guards/Author.interceptor';
+import { ModalComponent } from './appModal.component';
+import { StoreModule } from '@ngrx/store';
+import { modalReducer } from './_core/NGRXStore/Reducers/Modal.Reducer';
 // khai bao routing
 
 let appRoutes: Routes = [
@@ -44,7 +47,8 @@ let appRoutes: Routes = [
 
   declarations: [
 
-    AppComponent
+    AppComponent,
+    ModalComponent
 
   ],
 
@@ -62,7 +66,14 @@ let appRoutes: Routes = [
     DirectiveUIModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(appRoutes),
-    HttpClientModule, //Module giup goi API và sài API cho toàn bộ ứng dụng của mình
+    HttpClientModule,
+    StoreModule.forRoot({
+      modalReducer: modalReducer,
+
+
+      //cac reducer khac ...
+
+    }), //Module giup goi API và sài API cho toàn bộ ứng dụng của mình
 
   ],
 

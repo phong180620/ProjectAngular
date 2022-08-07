@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Film } from '../_core/Models/Film';
 import { FilmsService } from '../_core/Services/Films.service';
 
@@ -21,9 +22,12 @@ import { FilmsService } from '../_core/Services/Films.service';
 
 
                             <a class="btn btn-success" [routerLink]="['/details']" [queryParams]="{maPhim:film.maPhim,tenPhim:film.tenPhim}"]]>Xem chi tiet</a>
+                            
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#modelId1" (click)="xemChiTiet(film)") >Xem chi tiet (popup)</button>
 
                         </div>
                     </div>
+                    
                 </div>
             </div>
             
@@ -39,7 +43,7 @@ export class HomeComponent implements OnInit {
     films: Film[] = []
 
     //DI : Dependecy
-    constructor(private filmService: FilmsService,) { }
+    constructor(private filmService: FilmsService, private store: Store<{}>) { }
 
     //ngOnInit la 1 lifecycle giong component didmount no se duoc chay sau khi template duoc khoi tao
     ngOnInit() {
@@ -53,6 +57,13 @@ export class HomeComponent implements OnInit {
             console.log('error', { error })
         })
 
+    }
+    xemChiTiet(film: any) {
+        // subscite la  lay du lieu ve , next la dua gia tri moi lam thay doi gia tri state cu di
+        this.filmService.storeModal.next(film),
+
+            //output giong cais tren
+            this.store.dispatch({ type: 'XEM_CHI_TIET', film: film })
     }
 
 }
